@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SShoping.Backend.CouponAPI.Data;
+using SShoping.Backend.CouponAPI.Models;
 using SShoping.Backend.CouponAPI.Models.Dtos;
 
 namespace SShoping.Backend.CouponAPI.Controllers;
@@ -63,17 +64,69 @@ public class CouponController : ControllerBase
         return _resposeDto;
     }
 
-    // [HttpPost]
-    // public IActionResult CreateCoupon(CouponDto couponDto)
-    // {
-    //     try
-    //     {
-    //         return Ok();
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         throw;
-    //     }
-    // }
+    [HttpPost]
+    public ResponseDto CreateCoupon([FromBody] CouponDto couponDto)
+    {
+        try
+        {
+            var entity = _mapper.Map<Coupon>(couponDto);
 
+            _context.Coupons.Add(entity);
+            _context.SaveChanges();
+
+            var dtoResult = _mapper.Map<CouponDto>(entity);
+            _resposeDto.Result = dtoResult;
+        }
+        catch (Exception ex)
+        {
+            _resposeDto.IsSuccess = false;
+            _resposeDto.Message = ex.Message;
+        }
+
+        return _resposeDto;
+    }
+
+    [HttpPut]
+    public ResponseDto UpdateCoupon([FromBody] CouponDto couponDto)
+    {
+        try
+        {
+            var entity = _mapper.Map<Coupon>(couponDto);
+
+            _context.Coupons.Update(entity);
+            _context.SaveChanges();
+
+            var dtoResult = _mapper.Map<CouponDto>(entity);
+            _resposeDto.Result = dtoResult;
+        }
+        catch (Exception ex)
+        {
+            _resposeDto.IsSuccess = false;
+            _resposeDto.Message = ex.Message;
+        }
+
+        return _resposeDto;
+    }
+
+    [HttpDelete]
+    public ResponseDto DeleteCoupon(int id)
+    {
+        try
+        {
+            var entity = _context.Coupons.FirstOrDefault(c => c.CoupoinId == id);
+
+            if (entity is null)
+                throw new Exception();
+
+            _context.Coupons.Remove(entity);
+            _context.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            _resposeDto.IsSuccess = false;
+            _resposeDto.Message = ex.Message;
+        }
+
+        return _resposeDto;
+    }
 }
