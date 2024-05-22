@@ -1,4 +1,5 @@
 ﻿using SShoping.Frontend.Web.Models.Dtos;
+using SShoping.Frontend.Web.Util;
 
 namespace SShoping.Frontend.Web.Services.Coupon;
 
@@ -13,27 +14,41 @@ public class CouponService : ICouponService
         => await _baseService.SendAsync(new()
         {
             ApiType = Util.StaticDetails.ApiType.GET,
-            Url = "",
+            Url = StaticDetails.CouponAPIBaseUrl + "/api/coupon",
             AccessToken = "",
-            Data = ""
         });
 
     public async Task<ResponseDto?> GetCouponAsync(int couponId)
-    {
-        throw new NotImplementedException();
-    }
+         => await _baseService.SendAsync(new()
+         {
+             ApiType = Util.StaticDetails.ApiType.GET,
+             Url = StaticDetails.CouponAPIBaseUrl + "/api/coupon/id/" + couponId,
+             AccessToken = "",
+         });
+
     public async Task<ResponseDto?> PostCouponAsync(CouponDto couponDto)
-    {
-        throw new NotImplementedException();
-    }
+         => await _baseService.SendAsync(new()
+         {
+             ApiType = Util.StaticDetails.ApiType.POST,
+             Url = StaticDetails.CouponAPIBaseUrl + "/api/coupon",
+             AccessToken = "",
+             Data = couponDto
+         });
 
     public async Task<ResponseDto?> PutCouponAsync(CouponDto couponDto)
-    {
-        throw new NotImplementedException();
-    }
+        => await _baseService.SendAsync(new()
+        {
+            ApiType = Util.StaticDetails.ApiType.PUT,
+            Url = StaticDetails.CouponAPIBaseUrl + "/api/coupon",
+            AccessToken = "",
+            Data = couponDto
+        });
 
     public async Task<ResponseDto?> DeleteCouponAsync(int couponId)
-    {
-        throw new NotImplementedException();
-    }
+         => await _baseService.SendAsync(new()
+         {
+             ApiType = Util.StaticDetails.ApiType.DELETE,
+             Url = StaticDetails.CouponAPIBaseUrl + "/api/coupon/" + couponId,
+             AccessToken = "",
+         });
 }

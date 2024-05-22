@@ -2,6 +2,8 @@
 
 public sealed class StaticDetails
 {
+    public static string CouponAPIBaseUrl { get; set; }
+
     public enum ApiType
     {
         GET,
